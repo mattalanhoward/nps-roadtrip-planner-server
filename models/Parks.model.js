@@ -4,10 +4,10 @@ const { Schema, model } = require("mongoose");
 
 const parksSchema = new Schema(
   {
-    firstName: {
+    fullName: {
       type: String,
     },
-    lastName: {
+    stateCode: {
       type: String,
     },
     userName: {
