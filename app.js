@@ -28,7 +28,7 @@ app.use(
   })
 );
 
-app.use("/", userRouter);
+app.use("/user", userRouter);
 app.use("/", indexRouter);
 
 module.exports = app;
