@@ -103,6 +103,7 @@ router.post("/login", (req, res, next) => {
           res.status(200).json({
             accessToken: session._id,
             user,
+            apiToken: process.env.REACT_APP_NPS_API_KEY,
           });
         });
       } else {
