@@ -53,7 +53,11 @@ router.post("/signup", (req, res, next) => {
         userId: user._id,
         createdAt: Date.now(),
       }).then((session) => {
-        res.status(200).json({ accessToken: session._id, user });
+        res.status(200).json({
+          accessToken: session._id,
+          user,
+          apiToken: process.env.REACT_APP_NPS_API_KEY,
+        });
       });
     })
     .catch((error) => {
@@ -96,7 +100,10 @@ router.post("/login", (req, res, next) => {
           userId: user._id,
           createdAt: Date.now(),
         }).then((session) => {
-          res.status(200).json({ accessToken: session._id, user });
+          res.status(200).json({
+            accessToken: session._id,
+            user,
+          });
         });
       } else {
         res.status(200).json({ errorMessage: "Incorrect password" });
