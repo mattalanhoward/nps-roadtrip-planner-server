@@ -8,9 +8,9 @@ require("dotenv").config();
 require("./config/db.config");
 
 //Router Definitions
-var indexRouter = require("./routes/index");
-var userRouter = require("./routes/auth");
-var stateRouter = require("./routes/state");
+var indexRouter = require("./routes/index.route");
+var userRouter = require("./routes/user.route");
+var stateRouter = require("./routes/state.route");
 
 var app = express();
 
