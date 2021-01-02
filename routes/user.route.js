@@ -14,6 +14,7 @@ const mongoose = require("mongoose");
 
 // .post() route ==> to process form data
 router.post("/signup", (req, res, next) => {
+  console.log(`signup`);
   const { userName, email, password } = req.body;
 
   if (!userName || !email || !password) {
@@ -56,7 +57,6 @@ router.post("/signup", (req, res, next) => {
         res.status(200).json({
           accessToken: session._id,
           user,
-          apiToken: process.env.REACT_APP_NPS_API_KEY,
         });
       });
     })
@@ -103,7 +103,6 @@ router.post("/login", (req, res, next) => {
           res.status(200).json({
             accessToken: session._id,
             user,
-            apiToken: process.env.REACT_APP_NPS_API_KEY,
           });
         });
       } else {
