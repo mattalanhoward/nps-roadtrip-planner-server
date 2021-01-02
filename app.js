@@ -10,6 +10,7 @@ require("./config/db.config");
 //Router Definitions
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/auth");
+var stateRouter = require("./routes/state");
 
 var app = express();
 
@@ -30,5 +31,6 @@ app.use(
 
 app.use("/user", userRouter);
 app.use("/", indexRouter);
+app.use("/state", stateRouter);
 
 module.exports = app;
