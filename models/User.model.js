@@ -40,7 +40,7 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    favoriteParks: [{ type: Schema.Types.ObjectId, ref: "Parks" }],
+    favoriteParks: [],
     userRoadTrips: [{ type: Schema.Types.ObjectId, ref: "RoadTrips" }],
   },
   {
