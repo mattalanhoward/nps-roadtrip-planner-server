@@ -3,7 +3,7 @@ var router = express.Router();
 const axios = require("axios");
 
 const API_KEY = process.env.NPS_API_KEY;
-console.log(`Backend API`, API_KEY);
+// console.log(`Backend API`, API_KEY);
 
 /* GET all state parks from api. */
 router.get("/:stateAbbr", (req, res) => {

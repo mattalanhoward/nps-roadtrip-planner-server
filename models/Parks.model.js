@@ -4,19 +4,10 @@ const { Schema, model } = require("mongoose");
 
 const parksSchema = new Schema(
   {
-    fullName: {
+    parkCode: {
       type: String,
     },
-    stateCode: {
-      type: String,
-    },
-    userName: {
-      type: String,
-      unique: true,
-      required: [true, "Username is required."],
-    },
-
-    favoriteParks: [{ type: Schema.Types.ObjectId, ref: "Parks" }],
+    usersFavorited: [{ type: Schema.Types.ObjectId, ref: "User" }],
     userRoadTrips: [{ type: Schema.Types.ObjectId, ref: "RoadTrips" }],
   },
   {
@@ -24,4 +15,4 @@ const parksSchema = new Schema(
   }
 );
 
-module.exports = model("Parks", userSchema);
+module.exports = model("Parks", parksSchema);

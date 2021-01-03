@@ -11,6 +11,7 @@ require("./config/db.config");
 var indexRouter = require("./routes/index.route");
 var userRouter = require("./routes/user.route");
 var stateRouter = require("./routes/state.route");
+var parkRouter = require("./routes/park.route");
 
 var app = express();
 
@@ -29,8 +30,9 @@ app.use(
   })
 );
 
-app.use("/user", userRouter);
 app.use("/", indexRouter);
+app.use("/user", userRouter);
 app.use("/state", stateRouter);
+app.use("/park", parkRouter);
 
 module.exports = app;
