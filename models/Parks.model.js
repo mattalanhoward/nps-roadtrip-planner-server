@@ -4,8 +4,8 @@ const { Schema, model } = require("mongoose");
 
 const parksSchema = new Schema(
   {
-    parkCode: {
-      type: String,
+    park: {
+      type: Object,
     },
     usersFavorited: [{ type: Schema.Types.ObjectId, ref: "User" }],
     userRoadTrips: [{ type: Schema.Types.ObjectId, ref: "RoadTrips" }],

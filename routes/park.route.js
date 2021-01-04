@@ -25,12 +25,12 @@ router.post("/usersFavorites", (req, res) => {
 
 /* POST add favorite park. */
 router.post("/favorites", (req, res) => {
-  const { parkCode, userId } = req.body;
-  console.log(`Favorite Params `, parkCode);
-  console.log(`Favorite UserId `, userId);
+  const { park, userId } = req.body;
+  //   console.log(`Favorite Params `, park);
+  //   console.log(`Favorite UserId `, userId);
 
   //Add user to Park Model favorites.
-  ParksModel.findOne({ parkCode: parkCode }, {}, { upsert: true })
+  ParksModel.findOne({ park: park }, {}, { upsert: true })
     .then((park) => {
       if (park) {
         park.usersFavorited.includes(userId)
@@ -39,7 +39,7 @@ router.post("/favorites", (req, res) => {
         park.save();
       } else {
         ParksModel.create({
-          parkCode,
+          park,
           usersFavorited: userId,
         });
       }
@@ -52,9 +52,11 @@ router.post("/favorites", (req, res) => {
   //Add favorite to User model.
   UserModel.findOne({ _id: userId })
     .then((user) => {
-      user.favoriteParks.includes(parkCode)
-        ? user.favoriteParks.splice(user.favoriteParks.indexOf(parkCode), 1)
-        : user.favoriteParks.push(parkCode);
+      const parkCodesArr = user.favoriteParks.map((park) => park.parkCode);
+      //   console.log(parkCodesArr);
+      parkCodesArr.includes(park.parkCode)
+        ? user.favoriteParks.splice(parkCodesArr.indexOf(park.parkCode), 1)
+        : user.favoriteParks.push(park);
 
       user.save();
       res.status(200).json(user);
