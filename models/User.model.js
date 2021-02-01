@@ -41,7 +41,7 @@ const userSchema = new Schema(
       default: false,
     },
     favoriteParks: [],
-    userRoadTrips: [{ type: Schema.Types.ObjectId, ref: "RoadTrips" }],
+    userRoadTrips: [],
   },
   {
     timestamps: true,

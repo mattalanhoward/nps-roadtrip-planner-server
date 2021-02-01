@@ -9,12 +9,12 @@ const API_KEY = process.env.NPS_API_KEY;
 
 /* POST get users favorite parks. */
 router.post("/usersFavorites", (req, res) => {
-  console.log(`Get favorite parks triggered`);
+  // console.log(`Get favorite parks triggered`);
   const { userId } = req.body;
-  console.log(`USER id`, userId);
+  // console.log(`USER id`, userId);
   UserModel.findOne({ _id: userId })
     .then((user) => {
-      console.log(`Find user`, user.favoriteParks);
+      // console.log(`Find user`, user.favoriteParks);
       res.status(200).json(user);
     })
     .catch((error) => {
@@ -63,6 +63,38 @@ router.post("/favorites", (req, res) => {
     })
     .catch((error) => {
       console.log(`Error user's favorites`, error);
+      res.status(500).json(error);
+    });
+});
+
+//Add Park to Road Trip
+router.post("/addToRoadTrip", (req, res) => {
+  const { parkId, userId, tripName } = req.body;
+  // console.log(parkId, userId, tripName);
+
+  UserModel.findOne({ _id: userId })
+    .then((user) => {
+      const findTrip = user.userRoadTrips.filter(
+        (trip) => trip.tripName === tripName
+      );
+      console.log(`FOUND TRIP`, findTrip[0]);
+
+      if (findTrip.length > 0) {
+        findTrip[0].parkId.push(parkId);
+        user.save();
+        console.log(user.userRoadTrips);
+        res.status(200).json(user);
+      } else {
+        user.userRoadTrips.push({
+          tripName: tripName,
+          parkId: [parkId],
+        });
+        user.save();
+        res.status(200).json(user);
+      }
+    })
+    .catch((error) => {
+      console.log(`Error adding to Roadtrip`, error);
       res.status(500).json(error);
     });
 });
