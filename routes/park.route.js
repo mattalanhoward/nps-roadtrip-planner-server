@@ -67,31 +67,18 @@ router.post("/favorites", (req, res) => {
     });
 });
 
-//Add Park to Road Trip
-router.post("/addToRoadTrip", (req, res) => {
+//Add Park to NEW Road Trip
+router.post("/addToNewRoadTrip", (req, res) => {
   const { parkId, userId, tripName } = req.body;
-  // console.log(parkId, userId, tripName);
 
   UserModel.findOne({ _id: userId })
     .then((user) => {
-      const findTrip = user.userRoadTrips.filter(
-        (trip) => trip.tripName === tripName
-      );
-      console.log(`FOUND TRIP`, findTrip[0]);
-
-      if (findTrip.length > 0) {
-        findTrip[0].parkId.push(parkId);
-        user.save();
-        console.log(user.userRoadTrips);
-        res.status(200).json(user);
-      } else {
-        user.userRoadTrips.push({
-          tripName: tripName,
-          parkId: [parkId],
-        });
-        user.save();
-        res.status(200).json(user);
-      }
+      user.userRoadTrips.push({
+        tripName: tripName,
+        parkId: [parkId],
+      });
+      user.save();
+      res.status(200).json(user);
     })
     .catch((error) => {
       console.log(`Error adding to Roadtrip`, error);
