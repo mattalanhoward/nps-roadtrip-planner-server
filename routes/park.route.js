@@ -3,6 +3,7 @@ var router = express.Router();
 const axios = require("axios");
 const ParksModel = require("../models/Parks.model");
 const UserModel = require("../models/User.model");
+const RoadTripsModel = require("../models/RoadTrips.model");
 
 const API_KEY = process.env.NPS_API_KEY;
 // console.log(`Backend API`, API_KEY);
@@ -68,22 +69,88 @@ router.post("/favorites", (req, res) => {
 });
 
 //Add Park to NEW Road Trip
+
 router.post("/addToNewRoadTrip", (req, res) => {
   const { parkId, userId, tripName } = req.body;
 
-  UserModel.findOne({ _id: userId })
-    .then((user) => {
-      user.userRoadTrips.push({
-        tripName: tripName,
-        parkId: [parkId],
-      });
-      user.save();
-      res.status(200).json(user);
-    })
+  RoadTripsModel.create({
+    name: tripName,
+    rating: null,
+    completed: false,
+    comments: "",
+    user: userId,
+    parks: [parkId],
+  })
+    .then((roadtrip) =>
+      UserModel.findById({ _id: userId }).then((user) => {
+        user.userRoadTrips = [roadtrip._id];
+
+        res.status(200).json(user);
+      })
+    )
     .catch((error) => {
-      console.log(`Error adding to Roadtrip`, error);
+      console.log(`Error adding to NEW Roadtrip`, error);
       res.status(500).json(error);
     });
 });
+
+// router.post("/addToNewRoadTrip", (req, res) => {
+//   const { parkId, userId, tripName } = req.body;
+
+//   UserModel.findOne({ _id: userId })
+//     .then((user) => {
+//       user.userRoadTrips.push({
+//         tripName: tripName,
+//         parkId: [parkId],
+//       });
+//       user.save();
+//       res.status(200).json(user);
+//     })
+//     .catch((error) => {
+//       console.log(`Error adding to NEW Roadtrip`, error);
+//       res.status(500).json(error);
+//     });
+// });
+
+//Add Park to EXISTING Road Trip
+router.post("/addToExistingRoadTrip", (req, res) => {
+  console.log(`existing`);
+  const { parkId, userId, tripName } = req.body;
+
+  RoadTripsModel.findOne({
+    user: userId,
+    name: tripName,
+  })
+    .then((roadTrip) => {
+      console.log(roadTrip);
+    })
+    .catch((error) => {
+      console.log(`Error adding to NEW Roadtrip`, error);
+      res.status(500).json(error);
+    });
+});
+
+// router.post("/addToExistingRoadTrip", (req, res) => {
+//   console.log(`existing`);
+//   const { parkId, userId, tripName } = req.body;
+//   UserModel.findOne({ _id: userId })
+//     .then((user) => {
+//       updatedRoadTrip = user.userRoadTrips
+//         .filter((trip) => {
+//           return trip.tripName === tripName;
+//         })
+//         .push(parkId);
+
+//       console.log(`Updated Road Trip`, updatedRoadTrip);
+//       user.userRoadTrips = updatedRoadTrip;
+
+//       user.save();
+//       res.status(200).json(user);
+//     })
+
+//     .catch((error) => {
+//       console.log(`Error adding to EXISTING Roadtrip`, error);
+//       res.status(500).json(error);
+//     });
 
 module.exports = router;
