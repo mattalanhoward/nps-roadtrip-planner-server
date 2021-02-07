@@ -40,9 +40,14 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    favoriteParks: [],
-    userRoadTrips: [],
+    favoriteParks: {
+      type: Array,
+    },
+    userRoadTrips: {
+      type: Array,
+    },
   },
+
   {
     timestamps: true,
   }

@@ -21,7 +21,7 @@ const RoadTripsSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    parks: [{ type: Schema.Types.ObjectId, ref: "Parks" }],
+    parks: [],
   },
   {
     timestamps: true,
