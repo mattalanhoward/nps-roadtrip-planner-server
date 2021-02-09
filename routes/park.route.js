@@ -122,12 +122,14 @@ router.post("/addToExistingRoadTrip", (req, res) => {
 //Delete Road Trip
 router.post("/deleteRoadTrip", (req, res) => {
   const { tripName, userId } = req.body;
-  console.log(`UserId`, userId);
-  console.log(`tripName`, tripName);
-
+  //Delete RoadTrip Model
   RoadTripsModel.findOneAndDelete({ _id: tripName })
+    //Delete RoadTrip from User Model
     .then(
       UserModel.findById(userId).then((user) => {
+        const idx = user.userRoadTrips.indexOf(tripName);
+        user.userRoadTrips.splice(idx, 1);
+        user.save();
         res.status(200).json(user);
       })
     )
