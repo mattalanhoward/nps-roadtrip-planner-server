@@ -24,10 +24,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //CORS configuration
 app.use(
-  cors({
-    credentials: true,
-    origin: process.env.ORIGIN,
-  })
+  cors()
 );
 
 app.use("/", indexRouter);
